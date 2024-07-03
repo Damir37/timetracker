@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "5ba35457-2902-4766-b0a4-70dcba388f42",
+		"name": "TimerTraker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19176732"
+	},
+	"item": [
+		{
+			"name": "CREATE_USER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Иван\",\r\n  \"passportNumber\": \"1234567890\",\r\n  \"surname\": \"Иванов\",\r\n  \"patronymic\": \"Иванович\",\r\n  \"address\": \"Москва, ул. Ленина, д. 1\",\r\n  \"tasks\": [\r\n    {\r\n      \"description\": \"Задача 1\",\r\n      \"startTime\": \"2023-10-01T09:00:00Z\",\r\n      \"endTime\": \"2023-10-01T11:00:00Z\",\r\n      \"duration\": \"2h0m0s\",\r\n      \"works\": [\r\n        {\r\n          \"hours\": 2,\r\n          \"minutes\": 0,\r\n          \"date\": \"2023-10-01\"\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"description\": \"Задача 2\",\r\n      \"startTime\": \"2023-10-02T14:00:00Z\",\r\n      \"endTime\": \"2023-10-02T16:00:00Z\",\r\n      \"duration\": \"2h0m0s\",\r\n      \"works\": [\r\n        {\r\n          \"hours\": 2,\r\n          \"minutes\": 0,\r\n          \"date\": \"2023-10-02\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8083/v1/user",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8083",
+					"path": [
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EDIT_USER",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Дамир2\",\r\n  \"passportNumber\": \"2234 567290\",\r\n  \"surname\": \"Муллахметов\",\r\n  \"patronymic\": \"Рамильевич\",\r\n  \"address\": \"Томск, ул. Сергея Лазо, д. 1\",\r\n  \"tasks\": []\r\n}   ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8083/v1/user/edit",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8083",
+					"path": [
+						"v1",
+						"user",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE_USER",
+			"request": {
+				"method": "DELETE",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET_USERS",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET_USER",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE_TASK",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"UserID\": 1,\r\n  \"Description\": \"Завершить проект до конца месяца\",\r\n  \"StartTime\": \"2023-10-01T09:00:00Z\",\r\n  \"EndTime\": \"2023-10-31T18:00:00Z\",\r\n  \"Duration\": 7200000000000,\r\n  \"Works\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8083/v1/task",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8083",
+					"path": [
+						"v1",
+						"task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EDIT_TASKS",
+			"request": {
+				"method": "PUT",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE_TASK",
+			"request": {
+				"method": "DELETE",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET_TASK",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET_TASKS",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE_WORK",
+			"request": {
+				"method": "POST",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE_WORK",
+			"request": {
+				"method": "DELETE",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "EDIT_WORK",
+			"request": {
+				"method": "PUT",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET_WORK",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET_WORKS",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET_WORK_PERIOD",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

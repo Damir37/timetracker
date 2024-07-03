@@ -1,0 +1,584 @@
+basePath: /v1
+definitions:
+  types.Errors:
+    properties:
+      errors:
+        type: string
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  types.Result:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  types.TaskSwagger:
+    properties:
+      description:
+        type: string
+      duration:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      startTime:
+        type: string
+      userID:
+        type: integer
+    type: object
+  types.User:
+    properties:
+      address:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      passportNumber:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    required:
+    - passportNumber
+    type: object
+  types.Work:
+    properties:
+      date:
+        type: string
+      hours:
+        type: integer
+      id:
+        type: integer
+      minutes:
+        type: integer
+      taskID:
+        type: integer
+      userID:
+        type: integer
+    type: object
+  types.WorkPeriod:
+    properties:
+      endDate:
+        type: string
+      startDate:
+        type: string
+      totalHours:
+        type: integer
+      totalMinutes:
+        type: integer
+      totalMinutesCombined:
+        type: integer
+      userID:
+        type: integer
+    type: object
+host: localhost:8083
+info:
+  contact: {}
+  description: Это API для отслеживания времени работы с использованием таймеров
+  title: TimerTracker API
+  version: "1.0"
+paths:
+  /v1/task:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новую таску в систему
+      parameters:
+      - description: Объект таски, который нужно добавить
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/types.TaskSwagger'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/types.TaskSwagger'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Добавляет в базу данных таску
+      tags:
+      - tasks
+  /v1/tasks:
+    get:
+      consumes:
+      - application/json
+      description: Получает список всех задач в системе
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/types.TaskSwagger'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Получает все задачи из базы данных
+      tags:
+      - tasks
+  /v1/tasks/{taskID}:
+    get:
+      consumes:
+      - application/json
+      description: Получает задачу из системы по её ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: taskID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.TaskSwagger'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Получает задачу из базы данных по ID
+      tags:
+      - tasks
+  /v1/tasks/delete/{taskID}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет задачу из системы по её ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: taskID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/types.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Удаляет задачу из базы данных
+      tags:
+      - tasks
+  /v1/tasks/edit:
+    put:
+      consumes:
+      - application/json
+      description: Редактирует существующую задачу в системе
+      parameters:
+      - description: Объект задачи, которую необходимо обновить
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/types.TaskSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.TaskSwagger'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Редактирует задачу в базе данных
+      tags:
+      - tasks
+  /v1/user:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет нового пользователя в систему
+      parameters:
+      - description: Объект пользователя, который нужно добавить
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/types.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/types.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Добавляет в базу данных нового пользователя
+      tags:
+      - users
+  /v1/user/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Получает пользователя из системы по его ID
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Получает пользователя из базы данных по ID
+      tags:
+      - users
+  /v1/user/delete/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет пользователя из системы по его ID
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/types.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Удаляет пользователя из базы данных
+      tags:
+      - users
+  /v1/user/edit:
+    put:
+      consumes:
+      - application/json
+      description: Редактирует существующего пользователя в системе
+      parameters:
+      - description: Объект пользователя, которую необходимо обновить
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/types.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Редактирует пользователя в базе данных
+      tags:
+      - users
+  /v1/users:
+    get:
+      consumes:
+      - application/json
+      description: Получает список всех пользователей в системе
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/types.User'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Получает всех пользователей из базы данных
+      tags:
+      - users
+  /v1/work:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новую работу в систему
+      parameters:
+      - description: Объект работы, который нужно добавить
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/types.Work'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/types.Work'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Добавляет в базу данных работу, которую взял пользователь
+      tags:
+      - works
+  /v1/work/{workID}:
+    get:
+      consumes:
+      - application/json
+      description: Получает работу из системы по её ID
+      parameters:
+      - description: Work ID
+        in: path
+        name: workID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.Work'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Получает работу из базы данных по ID
+      tags:
+      - works
+  /v1/work/delete/{taskID}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет работу из системы по её ID
+      parameters:
+      - description: Work ID
+        in: path
+        name: workID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/types.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Удаляет работу из базы данных
+      tags:
+      - works
+  /v1/work/edit:
+    put:
+      consumes:
+      - application/json
+      description: Редактирует существующею работу в системе
+      parameters:
+      - description: Объект работы, которую необходимо обновить
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/types.Work'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.Work'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Редактирует работу в базе данных
+      tags:
+      - works
+  /v1/work/period/{userID}:
+    get:
+      consumes:
+      - application/json
+      description: Получает работы пользователя за указанный период времени
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      - description: 'Start Date Пример: 2023-10-05T21:48:00+07:00'
+        format: date-time
+        in: query
+        name: startDate
+        required: true
+        type: string
+      - description: 'End Date Пример: 2023-10-05T21:48:00+07:00'
+        format: date-time
+        in: query
+        name: endDate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/types.WorkPeriod'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+        "505":
+          description: HTTP Version Not Supported
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Получает работы пользователя за период
+      tags:
+      - works
+  /v1/works:
+    get:
+      consumes:
+      - application/json
+      description: Получает список всех работ в системе
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/types.Work'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/types.Errors'
+      summary: Получает все работы из базы данных
+      tags:
+      - works
+swagger: "2.0"
